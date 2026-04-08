@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dynamic Table</title>
+  </head>
+  <body>
+    <h2>Dynamic Table - Add & Delete Rows</h2>
+
+    <!-- INPUT FORM -->
+    <p>
+      <label
+        >Name: <input type="text" id="inputName" placeholder="Enter name"
+      /></label>
+      &nbsp;
+      <label
+        >Age: <input type="number" id="inputAge" placeholder="Enter age"
+      /></label>
+      &nbsp;
+      <label
+        >City: <input type="text" id="inputCity" placeholder="Enter city"
+      /></label>
+      &nbsp;
+      <button onclick="addRow()">Add Row</button>
+    </p>
+
+    <p id="errorMsg" style="color: red"></p>
+
+    <!-- TABLE -->
+    <table border="1" cellpadding="8" cellspacing="0">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>City</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+        <!-- Rows will be added here by JavaScript -->
+      </tbody>
+    </table>
+
+    <br />
+    <button onclick="deleteAllRows()">Delete All Rows</button>
+    <p>Total Rows: <span id="rowCount">0</span></p>
+
+    <script>
+      // Keep track of serial number
+      var serialNumber = 1;
+
+      // ── Add Row Function ──────────────────────────────────
+      function addRow() {
+        // Step 1: Get values from input fields
+        var name = document.getElementById("inputName").value.trim();
+        var age = document.getElementById("inputAge").value.trim();
+        var city = document.getElementById("inputCity").value.trim();
+        var errorMsg = document.getElementById("errorMsg");
+
+        // Step 2: Simple Validation - check if fields are empty
+        if (name === "" || age === "" || city === "") {
+          errorMsg.textContent =
+            "⚠ Please fill in all fields before adding a row.";
+          return; // Stop the function here if validation fails
+        }
+
+        if (isNaN(age) || age <= 0) {
+          errorMsg.textContent = "⚠ Please enter a valid age.";
+          return;
+        }
+
+        // Clear any previous error message
+        errorMsg.textContent = "";
+
+        // Step 3: Get the table body element
+        var tableBody = document.getElementById("tableBody");
+
+        // Step 4: Create a new table row <tr>
+        var newRow = document.createElement("tr");
+
+        // Step 5: Add cells <td> inside the row
+        newRow.innerHTML =
+          "<td>" +
+          serialNumber +
+          "</td>" +
+          "<td>" +
+          name +
+          "</td>" +
+          "<td>" +
+          age +
+          "</td>" +
+          "<td>" +
+          city +
+          "</td>" +
+          "<td><button onclick='deleteRow(this)'>Delete</button></td>";
+
+        // Step 6: Append the new row to the table body
+        tableBody.appendChild(newRow);
+
+        // Step 7: Increase serial number
+        serialNumber++;
+
+        // Step 8: Update row count
+        updateRowCount();
+
+        // Step 9: Clear input fields after adding
+        document.getElementById("inputName").value = "";
+        document.getElementById("inputAge").value = "";
+        document.getElementById("inputCity").value = "";
+      }
+
+      // ── Delete Single Row Function ────────────────────────
+      // 'btn' refers to the Delete button that was clicked
+      function deleteRow(btn) {
+        // btn         → the <button> element clicked
+        // btn.parentNode  → the <td> that contains the button
+        // btn.parentNode.parentNode → the <tr> (the whole row)
+        var row = btn.parentNode.parentNode;
+
+        // Remove that row from the table
+        row.parentNode.removeChild(row);
+
+        // Update row count display
+        updateRowCount();
+      }
+
+      // ── Delete All Rows Function ──────────────────────────
+      function deleteAllRows() {
+        var tableBody = document.getElementById("tableBody");
+
+        // innerHTML = "" clears everything inside the <tbody>
+        tableBody.innerHTML = "";
+
+        // Reset serial number back to 1
+        serialNumber = 1;
+
+        // Update row count display
+        updateRowCount();
+      }
+
+      // ── Update Row Count ──────────────────────────────────
+      function updateRowCount() {
+        var tableBody = document.getElementById("tableBody");
+
+        // .rows gives all <tr> elements inside the tbody
+        var count = tableBody.rows.length;
+
+        document.getElementById("rowCount").textContent = count;
+      }
+    </script>
+  </body>
+</html>

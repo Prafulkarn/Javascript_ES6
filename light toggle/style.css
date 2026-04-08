@@ -1,0 +1,22 @@
+
+
+#bulb {
+    height: 500px;
+    width: 400px;
+    display: block;
+    margin: auto;
+}
+#status{
+    align-items: center;
+    justify-content: center;
+    display:flex;
+
+}
+
+#btnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;     
+    height: 80px;
+}
+
