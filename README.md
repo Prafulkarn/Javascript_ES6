@@ -2,7 +2,7 @@
 
 Small JavaScript lab project with ES6 exercises and DOM mini-apps.
 
-## What is included
+## What is included ??
 
 - ES6 practice in basics.js
 - Dynamic Table (add/delete rows)
